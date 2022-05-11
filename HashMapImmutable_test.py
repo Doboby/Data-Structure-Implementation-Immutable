@@ -84,7 +84,6 @@ class TestImmutableList(unittest.TestCase):
     def test_from_list(self, a, b, c, d):
         test_data = []
         test_data1 = [b]
-        test_data2 = [a, b, c, d]
         p = HashMapImmutable.Hashdic()
         p = HashMapImmutable.cons(p, a, b)
         self.assertRaises(

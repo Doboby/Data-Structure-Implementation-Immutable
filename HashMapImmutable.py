@@ -1,6 +1,4 @@
-import copy
-from typing import Callable, TypeVar, Any, Generic, List
-import typing
+from typing import Callable, TypeVar, Any, Generic
 
 
 class Node:
@@ -159,12 +157,12 @@ def to_list(h: Hashdic) -> list:
     return outlist
 
 
-def from_list(List: list) -> Hashdic:
+def from_list(a: list) -> Hashdic:
     p = Hashdic()
-    if len(List) == 0:
+    if len(a) == 0:
         raise Exception(
             "Element with more than 2 elements in the list are not allow")
-    for k, v in enumerate(List):
+    for k, v in enumerate(a):
         p = cons(p, k, v)
     return p
 
