@@ -15,8 +15,8 @@ class Hashdic(Generic[VI]):
 
     def __init__(self, Hashcode: int = 13):
         self.code = Hashcode
-        self.key_set = []
-        self.data = [self.empty for _ in range(Hashcode)]
+        self.key_set: list = []
+        self.data: list[Node] = [self.empty for _ in range(Hashcode)]
         self.size = 0
 
     def __eq__(self, other: Any) -> bool:
