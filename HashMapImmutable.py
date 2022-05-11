@@ -9,7 +9,7 @@ class Node:
         self.value = value
 
 
-VI = TypeVar("VI", Node ,str, int, float, object)
+VI = TypeVar("VI", Node, str, int, float, object)
 
 
 class Hashdic(Generic[VI]):
@@ -116,6 +116,7 @@ def cons(Hd: Hashdic, key: int, value: VI) -> Hashdic:
                 else:
                     i += 1
 
+
 def remove(Hd: Hashdic, key: int) -> Hashdic:
 
     if key is None:
@@ -137,6 +138,7 @@ def remove(Hd: Hashdic, key: int) -> Hashdic:
     if not flag:
         raise Exception("no such key")
     return new
+
 
 def length(Hd: Hashdic) -> int:
 

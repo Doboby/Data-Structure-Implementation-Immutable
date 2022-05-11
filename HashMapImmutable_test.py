@@ -106,7 +106,6 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(fun(), 9)
         self.assertEqual(fun(), -1)
 
-
     def test_find(self):
         p = HashMapImmutable.Hashdic()
         p = HashMapImmutable.cons(p, 1, 5)
