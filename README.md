@@ -1,32 +1,29 @@
-# GROUP-NAME - lab NUMBER - variant NUMBER
+# GROUP- DOBBY - lab 2 - variant 5
 
-This is an example project which demonstrates project structure and necessary
-CI checks. It is not the best structure for real-world projects, but good
-enough for educational purposes.
+Set based on hash-map (collision resolution: open address)
+We use Linear detection of open address to collision resolution
 
 ## Project structure
 
-- `foo.py` -- implementation of `Foo` class with `hello` and `add` features.
-   Stateless.
-- `foo_test.py` -- unit and PBT tests for `Foo`.
-
-## Features
-
-- PBT: `test_add_commutative`
+- `HashMapImmutable.py` -- implementation of `Node` class for basic Data Structure.
+   and `Hashdic` class.
+- Include `cons` `remove` `length` `to_list` `from_list` `iterator`
+  `find` `mempty` `mconcat` `map` `reduce` and `filter` features.
+- `HashMapImmutable_test.py` -- we set all function tests for `HashMapImmutable`.
 
 ## Contribution
 
-- Aleksandr Penskoi (EMAIL) -- all work.
+- Du,Mei(212320038@hdu.edu.cn) -- completed basic operations.
+- zhuhaonan(921057454@qq.com) -- fix Bugs and test.
 
 ## Changelog
 
-- 29.03.2022 - 2
-  - Add test coverage.
-- 29.03.2022 - 1
-  - Update README. Add formal sections.
-- 29.03.2022 - 0
+- 11.05.2022 - 1
+  - Update README. Add function implementation.
+- 09.05.2022 - 0
   - Initial
 
 ## Design notes
 
-- ...
+- In this lab work, We have completed Immutable Algorithms and Data Structure Implementation.
+- Our code has been committed into the github <https://github.com/Doboby/Data-Structure-Implementation-Immutable>
