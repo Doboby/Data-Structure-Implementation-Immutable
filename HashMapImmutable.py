@@ -11,7 +11,7 @@ VI = TypeVar("VI", Node, str, int, float, object)
 
 
 class Hashdic(Generic[VI]):
-    empty = object()
+    empty = Node()
 
     def __init__(self, Hashcode: int = 13):
         self.code = Hashcode
@@ -61,7 +61,7 @@ class Hashdic_Iterator:
                 self.iterator_list.append(
                     Node(data[i].key, data[i].value))
 
-    def __next__(self) -> list:
+    def __next__(self) -> Node:
         try:
             temp = self.iterator_list[self.index]
         except IndexError:
@@ -113,6 +113,7 @@ def cons(Hd: Hashdic, key: int, value: VI) -> Hashdic:
                     return new
                 else:
                     i += 1
+    return new
 
 
 def remove(Hd: Hashdic, key: int) -> Hashdic:
@@ -146,9 +147,9 @@ def length(Hd: Hashdic) -> int:
         return -1
 
 
-def to_list(h: Hashdic) -> list:
+def to_list(h: Hashdic) -> list[Any]:
 
-    outlist = []
+    outlist: list[Any] = []
     if not h:
         return outlist
     for x in range(0, len(h.key_set)):
