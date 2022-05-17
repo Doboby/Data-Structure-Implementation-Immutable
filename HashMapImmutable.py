@@ -147,7 +147,7 @@ def length(Hd: Hashdic) -> int:
         return -1
 
 
-def to_list(h: Hashdic) -> list[Any]:
+def to_list(h: Hashdic) -> list:
 
     outlist: list[Any] = []
     if not h:
@@ -160,11 +160,8 @@ def to_list(h: Hashdic) -> list[Any]:
 
 def from_list(a: list) -> Hashdic:
     p = Hashdic()
-    if len(a) == 0:
-        raise Exception(
-            "Element with more than 2 elements in the list are not allow")
     for k, v in enumerate(a):
-        p = cons(p, k, v)
+        p = cons(p, k+1, v)
     return p
 
 
@@ -183,6 +180,16 @@ def iterator(hp: Hashdic) -> Callable:
             return -1
         return iterator_list[t]
     return next
+
+
+def member(mp: Hashdic, key: int) -> bool:
+    if key is None:
+        return False
+    for x in range(0, len(mp.data)):
+        if mp.data[x] != mp.empty:
+            if mp.data[x].key == key:
+                return True
+    return False
 
 
 def find(mp: Hashdic, key: int) -> VI:

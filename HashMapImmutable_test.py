@@ -5,6 +5,40 @@ import hypothesis.strategies as st
 
 
 class TestImmutableList(unittest.TestCase):
+    def test_api(self):
+        empty = HashMapImmutable.Hashdic()
+
+        self.assertEqual(HashMapImmutable.to_list(HashMapImmutable.cons(empty, 1, None)), [None])
+        l1 = HashMapImmutable.cons(HashMapImmutable.cons(empty, 1, 1), 2, None)
+        l2 = HashMapImmutable.cons(HashMapImmutable.cons(empty, 2, None, ), 1, 1)
+        self.assertEqual(HashMapImmutable.to_list(empty), [])
+        self.assertTrue(str(HashMapImmutable.to_list(l1)) == "[None, 1]" or str(HashMapImmutable.to_list(l1)) == "[1, None]")
+        self.assertNotEqual(empty, l1)
+        self.assertNotEqual(empty, l2)
+        self.assertEqual(l1, l2)
+        self.assertEqual(l1, HashMapImmutable.cons(HashMapImmutable.cons(l1, 1, 1), 2, None))
+        self.assertEqual(HashMapImmutable.length(empty), 0)
+        self.assertEqual(HashMapImmutable.length(l1), 2)
+        self.assertEqual(HashMapImmutable.length(l2), 2)
+        self.assertEqual(str(HashMapImmutable.to_list(HashMapImmutable.remove(l1, 2))), "[1]")
+        self.assertEqual(str(HashMapImmutable.to_list(HashMapImmutable.remove(l1, 1))), "[None]")
+        self.assertFalse(HashMapImmutable.member(empty, 2))
+        self.assertTrue(HashMapImmutable.member(l1, 2))
+        self.assertTrue(HashMapImmutable.member(l1, 1))
+        self.assertFalse(HashMapImmutable.member(l1, 3))
+
+        self.assertTrue(HashMapImmutable.to_list(l1) == [None, 1] or HashMapImmutable.to_list(l1) == [1, None])
+        self.assertEqual(l1, HashMapImmutable.from_list([1, None]))
+        self.assertEqual(HashMapImmutable.mconcat(l1, l2), HashMapImmutable.from_list([1, None]))
+
+        lst = HashMapImmutable.to_list(l1) + HashMapImmutable.to_list(l2)
+        for e in l1.data:
+            if e != l1.empty and e.key != -1:
+                lst.remove(e.value)
+        for e in l2.data:
+            if e != l2.empty and e.key != -1:
+                lst.remove(e.value)
+        self.assertEqual(lst, [])
 
     def test_length(self):
         p = HashMapImmutable.Hashdic()
@@ -44,9 +78,16 @@ class TestImmutableList(unittest.TestCase):
                 p, 2), HashMapImmutable.cons(
                 HashMapImmutable.Hashdic(), 1, 5))
 
-    @given(a=st.integers(), b=st.integers(), c=st.integers(),
-           d=st.integers(), e=st.integers(), f=st.integers())
-    def test_mconcat(self, a, b, c, d, e, f):
+    @given(a=st.lists(st.integers()))
+    def test_monoid_identity(self, a: list):
+        hash = HashMapImmutable.Hashdic()
+        hash_a = HashMapImmutable.from_list(a)
+        # a·empty and empty·a
+        self.assertEqual(HashMapImmutable.mconcat(hash_a, HashMapImmutable.mempty(hash))
+                         , HashMapImmutable.mconcat(HashMapImmutable.mempty(hash), hash_a))
+
+    @given(b=st.integers(), d=st.integers(), f=st.integers())
+    def test_monoid_associativity(self, b, d, f):
         emp = HashMapImmutable.Hashdic()
         p = HashMapImmutable.Hashdic()
         p = HashMapImmutable.cons(p, 0, b)
@@ -58,11 +99,13 @@ class TestImmutableList(unittest.TestCase):
         m = HashMapImmutable.cons(m, 1, d)
         n = HashMapImmutable.Hashdic()
         n = HashMapImmutable.cons(n, 3, f)
+
         self.assertEqual(HashMapImmutable.mconcat(None, None), None)
         self.assertEqual(HashMapImmutable.mconcat(p, None), p)
         self.assertEqual(HashMapImmutable.mconcat(emp, emp), emp)
         self.assertEqual(HashMapImmutable.mconcat(p, emp), p)
         self.assertEqual(HashMapImmutable.mconcat(p, q), m)
+        # (p·q)·n and p·(q·n)
         self.assertEqual(
             HashMapImmutable.mconcat(
                 HashMapImmutable.mconcat(
@@ -71,8 +114,8 @@ class TestImmutableList(unittest.TestCase):
                 p, HashMapImmutable.mconcat(
                     q, n)))
 
-    @given(a=st.integers(), b=st.integers(), c=st.integers(), d=st.integers())
-    def test_to_list(self, a, b, c, d):
+    @given(b=st.integers(), d=st.integers())
+    def test_to_list(self, b, d):
         p = HashMapImmutable.Hashdic()
         p = HashMapImmutable.cons(p, 1, b)
         self.assertEqual(HashMapImmutable.to_list(None), [])
@@ -80,15 +123,9 @@ class TestImmutableList(unittest.TestCase):
         p = HashMapImmutable.cons(p, 2, d)
         self.assertEqual(HashMapImmutable.to_list(p), [b, d])
 
-    @given(a=st.integers(), b=st.integers(), c=st.integers(), d=st.integers())
-    def test_from_list(self, a, b, c, d):
-        test_data = []
-        test_data1 = [b]
-        p = HashMapImmutable.Hashdic()
-        p = HashMapImmutable.cons(p, a, b)
-        self.assertRaises(
-            Exception,
-            HashMapImmutable.from_list, test_data)
+    @given(a=st.integers())
+    def test_from_list(self, a):
+        test_data1 = [a]
         self.assertEqual(
             HashMapImmutable.to_list(
                 HashMapImmutable.from_list(test_data1)),
@@ -151,8 +188,8 @@ class TestImmutableList(unittest.TestCase):
             return a + b
         self.assertEqual(HashMapImmutable.reduce(p, sum, 0), 5 + 6 + 9)
 
-    @given(a=st.integers(), b=st.integers(), c=st.integers(), d=st.integers())
-    def test_immutability_check(self, a, b, c, d):
+    @given(b=st.integers())
+    def test_immutability_check(self, b):
         p = HashMapImmutable.Hashdic()
         p1 = HashMapImmutable.cons(p, 3, b)
         self.assertNotEqual(id(p), id(p1))
