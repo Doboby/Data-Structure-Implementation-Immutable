@@ -92,8 +92,7 @@ class TestImmutableList(unittest.TestCase):
         hash_a = HashMapImmutable.from_list(a)
         # a·empty and empty·a
         self.assertEqual(HashMapImmutable.mconcat(
-            hash_a, HashMapImmutable.mempty(hash))
-            , HashMapImmutable.mconcat(
+            hash_a, HashMapImmutable.mempty(hash)), HashMapImmutable.mconcat(
                 HashMapImmutable.mempty(hash), hash_a))
 
     @given(b=st.integers(), d=st.integers(), f=st.integers())
