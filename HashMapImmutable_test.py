@@ -11,7 +11,8 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(HashMapImmutable.to_list(
             HashMapImmutable.cons(empty, 1, None)), [None])
         l1 = HashMapImmutable.cons(HashMapImmutable.cons(empty, 1, 1), 2, None)
-        l2 = HashMapImmutable.cons(HashMapImmutable.cons(empty, 2, None, ), 1, 1)
+        l2 = HashMapImmutable.cons(
+            HashMapImmutable.cons(empty, 2, None, ), 1, 1)
         self.assertEqual(HashMapImmutable.to_list(empty), [])
         self.assertTrue(str(HashMapImmutable.to_list(l1)) == "[None, 1]"
                         or str(HashMapImmutable.to_list(l1)) == "[1, None]")
