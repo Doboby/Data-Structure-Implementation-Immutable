@@ -1,4 +1,4 @@
-from typing import Callable, TypeVar, Any, Generic
+from typing import Callable, TypeVar, Any, Generic, List
 
 
 class Node:
@@ -7,7 +7,7 @@ class Node:
         self.value = value
 
 
-VI = TypeVar("VI", Node, str, int, float, object)
+VI = TypeVar("VI", Node, str, int, float, object, bool, Any)
 
 
 class Hashdic(Generic[VI]):
@@ -15,11 +15,11 @@ class Hashdic(Generic[VI]):
 
     def __init__(self, Hashcode: int = 13):
         self.code = Hashcode
-        self.key_set: list = []
-        self.data: list[Node] = [self.empty for _ in range(Hashcode)]
+        self.key_set: List = []
+        self.data: List[VI] = [self.empty for _ in range(Hashcode)]
         self.size = 0
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: VI) -> VI:
         if other is None:
             return False
         for x in range(0, len(self.data)):
@@ -52,7 +52,7 @@ class Hashdic(Generic[VI]):
 class Hashdic_Iterator:
     empty = object()
 
-    def __init__(self, data: list):
+    def __init__(self, data: List[VI]):
         self.index = 0
         self.iterator_list = []
         for i in range(0, len(data)):
@@ -73,7 +73,7 @@ class Hashdic_Iterator:
         return self
 
 
-def cons(Hd: Hashdic, key: int, value: VI) -> Hashdic:
+def cons(Hd: Hashdic, key: VI, value: VI) -> Hashdic:
 
     new = Hashdic()
     new.size = Hd.size
@@ -116,7 +116,7 @@ def cons(Hd: Hashdic, key: int, value: VI) -> Hashdic:
     return new
 
 
-def remove(Hd: Hashdic, key: int) -> Hashdic:
+def remove(Hd: Hashdic, key: VI) -> Hashdic:
 
     if key is None:
         raise Exception("key cant be NULL")
@@ -139,7 +139,7 @@ def remove(Hd: Hashdic, key: int) -> Hashdic:
     return new
 
 
-def length(Hd: Hashdic) -> int:
+def length(Hd: Hashdic) -> VI:
 
     if Hd:
         return Hd.size
@@ -147,9 +147,9 @@ def length(Hd: Hashdic) -> int:
         return -1
 
 
-def to_list(h: Hashdic) -> list:
+def to_list(h: Hashdic) -> List[VI]:
 
-    outlist: list[Any] = []
+    outlist: List[VI] = []
     if not h:
         return outlist
     for x in range(0, len(h.key_set)):
@@ -158,7 +158,7 @@ def to_list(h: Hashdic) -> list:
     return outlist
 
 
-def from_list(a: list) -> Hashdic:
+def from_list(a: List[VI]) -> Hashdic:
     p = Hashdic()
     for k, v in enumerate(a):
         p = cons(p, k+1, v)
@@ -182,7 +182,7 @@ def iterator(hp: Hashdic) -> Callable:
     return next
 
 
-def member(mp: Hashdic, key: int) -> bool:
+def member(mp: Hashdic, key: VI) -> VI:
     if key is None:
         return False
     for x in range(0, len(mp.data)):
@@ -192,7 +192,7 @@ def member(mp: Hashdic, key: int) -> bool:
     return False
 
 
-def find(mp: Hashdic, key: int) -> VI:
+def find(mp: Hashdic, key: VI) -> VI:
 
     if key is None:
         raise Exception("key cant be NULL")
@@ -253,7 +253,7 @@ def map(a: Hashdic, f: Callable) -> Hashdic:
     return new
 
 
-def reduce(a: Hashdic, f: Callable, state: int) -> int:
+def reduce(a: Hashdic, f: Callable, state: VI) -> VI:
 
     instate = state
     for x in range(0, len(a.data)):
@@ -263,7 +263,7 @@ def reduce(a: Hashdic, f: Callable, state: int) -> int:
     return instate
 
 
-def filter(a: Hashdic, f: Callable) -> list:
+def filter(a: Hashdic, f: Callable) -> List[VI]:
 
     result = to_list(a)
     for x in range(0, len(a.data)):
