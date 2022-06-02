@@ -7,7 +7,7 @@ class Node:
         self.value = value
 
 
-VI = TypeVar("VI", Node, str, int, float, object, bool, Any)
+VI = TypeVar("VI", Node, str, int, float, object, bool, list, Any)
 
 
 class Hashdic(Generic[VI]):
@@ -15,8 +15,8 @@ class Hashdic(Generic[VI]):
 
     def __init__(self, Hashcode: int = 13):
         self.code = Hashcode
-        self.key_set: List = []
-        self.data: List[VI] = [self.empty for _ in range(Hashcode)]
+        self.key_set: VI = []
+        self.data: VI = [self.empty for _ in range(Hashcode)]
         self.size = 0
 
     def __eq__(self, other: VI) -> VI:
@@ -52,7 +52,7 @@ class Hashdic(Generic[VI]):
 class Hashdic_Iterator:
     empty = object()
 
-    def __init__(self, data: List[VI]):
+    def __init__(self, data: VI):
         self.index = 0
         self.iterator_list = []
         for i in range(0, len(data)):
@@ -147,9 +147,9 @@ def length(Hd: Hashdic) -> VI:
         return -1
 
 
-def to_list(h: Hashdic) -> List[VI]:
+def to_list(h: Hashdic) -> VI:
 
-    outlist: List[VI] = []
+    outlist: VI = []
     if not h:
         return outlist
     for x in range(0, len(h.key_set)):
@@ -158,7 +158,7 @@ def to_list(h: Hashdic) -> List[VI]:
     return outlist
 
 
-def from_list(a: List[VI]) -> Hashdic:
+def from_list(a: VI) -> Hashdic:
     p = Hashdic()
     for k, v in enumerate(a):
         p = cons(p, k+1, v)
@@ -263,7 +263,7 @@ def reduce(a: Hashdic, f: Callable, state: VI) -> VI:
     return instate
 
 
-def filter(a: Hashdic, f: Callable) -> List[VI]:
+def filter(a: Hashdic, f: Callable) -> VI:
 
     result = to_list(a)
     for x in range(0, len(a.data)):
