@@ -19,10 +19,10 @@ class Hashdic(Generic[VI]):
         self.data: VI = [self.empty for _ in range(Hashcode)]
         self.size = 0
 
-    def __eq__(self, other: VI) -> VI:
+    def __eq__(self, other: VI) -> bool:
         if other is None:
             return False
-        for x in range(0, len(self.data)):
+        for x in range(0, self.code):
             if self.data[x] != self.empty:
                 if self.data[x].key != -1:
                     if other.data[x] != other.empty:
