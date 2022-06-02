@@ -8,7 +8,7 @@ We use Linear detection of open address to collision resolution
 - `HashMapImmutable.py` -- implementation of `Node` class for basic Data Structure.
    and `Hashdic` class.
 - Include `cons` `remove` `length` `to_list` `from_list` `iterator`
-  `find` `mempty` `mconcat` `map` `reduce` and `filter` features.
+  `member` `find` `mempty` `mconcat` `map` `reduce` and `filter` features.
 - `HashMapImmutable_test.py` -- we set all function tests for `HashMapImmutable`.
 
 ## Contribution
@@ -18,6 +18,10 @@ We use Linear detection of open address to collision resolution
 
 ## Changelog
 
+- 17.05.2022 - 2
+  - Add API tests as is from the task.
+  - Add PBT tests for monoid properties.
+  - Update README.
 - 11.05.2022 - 1
   - Update README. Add function implementation.
 - 09.05.2022 - 0
